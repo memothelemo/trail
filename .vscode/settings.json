@@ -1,5 +1,19 @@
 {
   "editor.formatOnSave": true,
+
+  "[yaml]": {
+    "editor.formatOnSave": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "diffEditor.ignoreTrimWhitespace": false,
+
+    // We don't want let prettier format YAML files based
+    // on the configured .prettierrc file
+    "editor.defaultFormatter": null
+  },
+
+  // Luau specific configuration
   "luau-lsp.completion.imports.enabled": true,
   "luau-lsp.completion.imports.suggestServices": true,
   "luau-lsp.completion.imports.suggestRequires": false,

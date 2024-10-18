@@ -8,5 +8,8 @@
   "types": "types/index.d.ts",
   "scripts": {
     "prepare": "cp ../../LICENSE.txt . && cp ../../README.md ."
+  },
+  "dependencies": {
+    "@rbxts/trail": "workspace:*"
   }
 }

@@ -1,4 +1,4 @@
 return {
     displayName = "Trail",
-	testMatch = { "**/*.spec" }
+    testMatch = { "**/*.spec" },
 }

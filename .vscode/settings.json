@@ -8,5 +8,8 @@
     "@Packages": "Packages/",
     "@DevPackages": "DevPackages/",
     "@src": "src"
-  }
+  },
+  "[luau]": {
+    "editor.defaultFormatter": "JohnnyMorganz.stylua"
+  },
 }

@@ -9,14 +9,14 @@ local Symbol = require("@src/Symbol")
 describe("named", function()
     it("should give an opaque object", function()
         local symbol = Symbol.named("foo")
-        
+
         expect(typeof(symbol)).toBe("userdata")
     end)
 
     it("should coerce to the given name", function()
         local symbol = Symbol.named("foo")
         local index = tostring(symbol):find("foo")
-        
+
         expect(index).toBeDefined()
     end)
 

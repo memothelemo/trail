@@ -7,14 +7,14 @@
 ]]
 return function(interval: number, callback: (elapsed: number) -> ())
     local conn: RBXScriptConnection
-	local lastCall = 0
-	conn = game:GetService("RunService").Heartbeat:Connect(function()
-		local now = os.clock()
-		local elapsed = now - lastCall
-		if elapsed >= interval then
-			lastCall = now
-			callback(elapsed)
-		end
-	end)
-	return conn
+    local lastCall = 0
+    conn = game:GetService("RunService").Heartbeat:Connect(function()
+        local now = os.clock()
+        local elapsed = now - lastCall
+        if elapsed >= interval then
+            lastCall = now
+            callback(elapsed)
+        end
+    end)
+    return conn
 end

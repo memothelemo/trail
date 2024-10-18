@@ -15,12 +15,12 @@ describe("constructors", function()
             expect(typeof(span.id)).toBe("string")
             expect(typeof(span.metadata)).toBe("table")
         end)
-    
+
         it("should throw if metadata is not defined", function()
             expect(Span.new).toThrow()
         end)
     end)
-    
+
     describe("none", function()
         it("should not have span.id and span.metadata defined", function()
             local span = Span.none()

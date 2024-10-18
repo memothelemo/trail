@@ -21,7 +21,7 @@ describe("generateSpanId", function()
 
     it("should generate a non-empty span ID", function()
         local sample = Primitives.generateSpanId()
-    
+
         expect(sample:len()).never.toBe(0)
     end)
 end)

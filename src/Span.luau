@@ -5,7 +5,7 @@ local Span = {}
 
 export type Span = typeof(Span) & {
     -- Used to enter the span when it is not executing
-	id: string?,
+    id: string?,
     --[[
         Metadata describing the span.
 
@@ -22,9 +22,9 @@ function Span.new(metadata: Primitives.Metadata)
         id = Primitives.generateSpanId(),
         metadata = metadata,
     }, {
-        __index = Span
+        __index = Span,
     })
-    return (self :: never) :: Span    
+    return (self :: never) :: Span
 end
 
 function Span.current(): Span
@@ -72,20 +72,22 @@ function Span.isDisabled(self: Span): boolean
 end
 
 function Span.record(self: Span, field: string, value: any)
-    if self.metadata == nil then return end
-	if value == Primitives.RemoveField then
-		self.metadata.fields[field] = nil
-		return
-	end
+    if self.metadata == nil then
+        return
+    end
+    if value == Primitives.RemoveField then
+        self.metadata.fields[field] = nil
+        return
+    end
 
-	-- we don't have to reference any values
-	-- just like tracing crate. :)
-	if value == nil then
-		value = Primitives.Nil
-	else
-		value = tostring(value)
-	end
-	self.metadata.fields[field] = value
+    -- we don't have to reference any values
+    -- just like tracing crate. :)
+    if value == nil then
+        value = Primitives.Nil
+    else
+        value = tostring(value)
+    end
+    self.metadata.fields[field] = value
 end
 
 return Span

@@ -1,7 +1,7 @@
 local Trail = require("@src")
 
-local JestGlobals = require("@DevPackages/JestGlobals")
 local Dispatch = require("@src/Dispatch")
+local JestGlobals = require("@DevPackages/JestGlobals")
 
 local it = JestGlobals.it
 local expect = JestGlobals.expect
@@ -17,7 +17,7 @@ beforeEach(function()
     end
 end)
 
-describe("setDefaultSubscriber", function()    
+describe("setDefaultSubscriber", function()
     it("should set default subscriber", function()
         Dispatch.setDefaultSubscriber(GlobalSubscriber)
         expect(Dispatch.getLocalSubscriber()).toBe(GlobalSubscriber)

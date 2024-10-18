@@ -1,10 +1,10 @@
 --!strict
 local Level = {
     Trace = 0,
-	Debug = 1,
-	Info = 2,
-	Warn = 3,
-	Error = 4,
+    Debug = 1,
+    Info = 2,
+    Warn = 3,
+    Error = 4,
 }
 
 -- Similar to TypeScript's enum system
@@ -17,10 +17,10 @@ Level[Level.Error] = "Error"
 local LevelFilter = {
     OFF = 0,
     TRACE = 1,
-	DEBUG = 2,
-	INFO = 3,
-	WARN = 4,
-	ERROR = 5,
+    DEBUG = 2,
+    INFO = 3,
+    WARN = 4,
+    ERROR = 5,
 }
 
 LevelFilter[LevelFilter.OFF] = "OFF"

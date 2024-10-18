@@ -50,13 +50,13 @@ end
 
 function Dispatch.getLocalSpanTree(): { Span }
     local currentThread = coroutine.running()
-	local spanTrees = SPAN_TREES[currentThread]
+    local spanTrees = SPAN_TREES[currentThread]
     -- create one automatically if it is not defined yet.
-	if spanTrees == nil then
-		spanTrees = {}
-		SPAN_TREES[currentThread] = spanTrees
-	end
-	return spanTrees
+    if spanTrees == nil then
+        spanTrees = {}
+        SPAN_TREES[currentThread] = spanTrees
+    end
+    return spanTrees
 end
 
 function Dispatch.currentSpan(): Span
@@ -72,24 +72,24 @@ end
 -- If G.__TRAIL_DEV__ set to true, we can monitor any leaking spans
 -- that will eventually leak in the production
 if _G.__TRAIL_DEV__ == true then
-	print("[trail::dispatcher] started monitoring for memory leaks")
+    print("[trail::dispatcher] started monitoring for memory leaks")
 
-	local every = require("@src/core/every")
-	every(1, function()
-		for thread in pairs(SPAN_TREES) do
-			if coroutine.status(thread) == "dead" then
-				print(`[trail::dispatcher] cleaning dead {tostring(thread)}'s span tree`)
-				SPAN_TREES[thread] = nil
-			end
-		end
-	end)
-	every(1, function()
-		for t, v in pairs(SPAN_TREES) do
-			if coroutine.status(t) == "dead" then
-				print(`[trail::dispatcher] got leftover span tree from {tostring(t)}`, v)
-			end
-		end
-	end)
+    local every = require("@src/core/every")
+    every(1, function()
+        for thread in pairs(SPAN_TREES) do
+            if coroutine.status(thread) == "dead" then
+                print(`[trail::dispatcher] cleaning dead {tostring(thread)}'s span tree`)
+                SPAN_TREES[thread] = nil
+            end
+        end
+    end)
+    every(1, function()
+        for t, v in pairs(SPAN_TREES) do
+            if coroutine.status(t) == "dead" then
+                print(`[trail::dispatcher] got leftover span tree from {tostring(t)}`, v)
+            end
+        end
+    end)
 end
 
 return Dispatch

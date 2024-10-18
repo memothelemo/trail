@@ -3,7 +3,7 @@ export type Level = number
 export type Id = string
 
 export type Event = {
-	fields: FieldSet,
+    fields: FieldSet,
     metadata: Metadata,
 }
 
@@ -29,7 +29,7 @@ export type Metadata = {
     fields: FieldSet,
 
     -- The kind of the callsite.
-    kind: "EVENT" | "SPAN"
+    kind: "EVENT" | "SPAN",
 }
 
 local Symbol = require("@src/Symbol")

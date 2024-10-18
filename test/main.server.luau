@@ -7,15 +7,13 @@ _G.__TRAIL_DEV__ = true
 local Jest = require("@DevPackages/Jest")
 
 local runCLIOptions = {
-	verbose = true,
-	ci = false,
+    verbose = true,
+    ci = false,
 }
 
-local status, result = Jest
-    .runCLI(script, runCLIOptions, {
-        script.Parent:WaitForChild("specs")
-    })
-    :awaitStatus()
+local status, result = Jest.runCLI(script, runCLIOptions, {
+    script.Parent:WaitForChild("specs"),
+}):awaitStatus()
 
 if status == "Rejected" then
     print(result)

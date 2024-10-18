@@ -12,7 +12,7 @@
     },
     "ServerScriptService": {
       "Test": {
-        "$path": "test"
+        "$path": "tests"
       }
     }
   }

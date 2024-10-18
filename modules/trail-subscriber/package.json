@@ -1,0 +1,12 @@
+{
+  "name": "@rbxts/trail-subscriber",
+  "version": "0.1.0",
+  "description": "Trail project's implementation with `tracing-subscriber`",
+  "repository": "https://github.com/memothelemo/trail",
+  "license": "MIT",
+  "main": "out/init.luau",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "prepare": "cp ../../LICENSE.txt . && cp ../../README.md ."
+  }
+}

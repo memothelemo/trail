@@ -1,0 +1,8 @@
+[package]
+name = "memothelemo/trail-subscriber"
+description = "Trail project's implementation with `tracing-subscriber`"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]

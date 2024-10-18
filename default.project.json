@@ -8,6 +8,9 @@
       },
       "trail": {
         "$path": "modules/trail/out"
+      },
+      "trail-subscriber": {
+        "$path": "modules/trail-subscriber/out"
       }
     },
     "ServerScriptService": {

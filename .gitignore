@@ -10,5 +10,5 @@
 /Packages
 /node_modules
 
-out
+**/out
 **/sourcemap.json

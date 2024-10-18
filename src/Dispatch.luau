@@ -69,9 +69,9 @@ function Dispatch.currentSpan(): Span
     end
 end
 
--- If G.__TRACING_DEV__ set to true, we can monitor any leaking spans
+-- If G.__TRAIL_DEV__ set to true, we can monitor any leaking spans
 -- that will eventually leak in the production
-if _G.__TRACING_DEV__ == true then
+if _G.__TRAIL_DEV__ == true then
 	print("[trail::dispatcher] started monitoring for memory leaks")
 
 	local every = require("@src/core/every")

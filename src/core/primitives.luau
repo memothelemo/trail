@@ -39,6 +39,6 @@ return {
         return game:GetService("HttpService"):GenerateGUID(false)
     end,
 
-    Nil = Symbol.named("<tracing.core.Nil>"),
-    RemoveField = Symbol.named("<tracing.core.RemoveField>"),
+    Nil = Symbol.named("<trail.core.Nil>"),
+    RemoveField = Symbol.named("<trail.core.RemoveField>"),
 }

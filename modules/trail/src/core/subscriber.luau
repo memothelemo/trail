@@ -4,7 +4,7 @@
 local Subscriber = {}
 Subscriber.__name = "Subscriber"
 
-local Primitives = require("@src/core/primitives")
+local Primitives = require("@Trail/core/primitives")
 
 export type Subscriber = typeof(Subscriber)
 

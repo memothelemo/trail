@@ -1,10 +1,10 @@
 --!strict
 --!optimize 2
 
-local Dispatcher = require("@src/core/dispatcher")
-local Primitives = require("@src/core/primitives")
-local Span = require("@src/span")
-local Subscriber = require("@src/core/subscriber")
+local Dispatcher = require("@Trail/core/dispatcher")
+local Primitives = require("@Trail/core/primitives")
+local Span = require("@Trail/span")
+local Subscriber = require("@Trail/core/subscriber")
 
 export type FieldSet = Primitives.FieldSet
 export type ValueSet = Primitives.ValueSet

@@ -11,5 +11,4 @@
 /node_modules
 
 out
-sourcemap.json
-sourcemap.*.json
+**/sourcemap.json

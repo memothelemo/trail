@@ -1,7 +1,7 @@
 --!strict
 --!optimize 2
 
-local Symbol = require("@src/core/symbol")
+local Symbol = require("@Trail/core/symbol")
 
 local Level = {
     Trace = 0,

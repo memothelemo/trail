@@ -10,7 +10,9 @@
       "current": {
         "name": "path",
         "sources": {
-          "@src": "src/"
+          "@DevPackages": "DevPackages/",
+          "@Modules": "out/library/",
+          "@Trail": "modules/trail/out/"
         }
       }
     },

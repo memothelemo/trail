@@ -4,15 +4,13 @@
       "rule": "convert_require",
       "target": {
         "name": "roblox",
-        "rojo_sourcemap": "sourcemap.test.json",
+        "rojo_sourcemap": "sourcemap.json",
         "indexing_style": "wait_for_child"
       },
       "current": {
         "name": "path",
         "sources": {
-          "@DevPackages": "DevPackages/",
-          "@src": "out/library/",
-          "@test": "test/"
+          "@Trail": "src/"
         }
       }
     },

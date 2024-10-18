@@ -1,9 +1,9 @@
 --!strict
 --!optimize 2
 
-local NoSubscriber = require("@src/core/noSubscriber")
-local Primitives = require("@src/core/primitives")
-local Subscriber = require("@src/core/subscriber")
+local NoSubscriber = require("@Trail/core/noSubscriber")
+local Primitives = require("@Trail/core/primitives")
+local Subscriber = require("@Trail/core/subscriber")
 
 type Subscriber = Subscriber.Subscriber
 

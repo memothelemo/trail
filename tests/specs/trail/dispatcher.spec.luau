@@ -1,10 +1,10 @@
 -- Load Trail module first
-require("@src")
+require("@Trail")
 
-local Dispatcher = require("@src/core/dispatcher")
-local NoSubscriber = require("@src/core/noSubscriber")
-local Primitives = require("@src/core/primitives")
-local Subscriber = require("@src/core/subscriber")
+local Dispatcher = require("@Trail/core/dispatcher")
+local NoSubscriber = require("@Trail/core/noSubscriber")
+local Primitives = require("@Trail/core/primitives")
+local Subscriber = require("@Trail/core/subscriber")
 
 local JestGlobals = require("@DevPackages/JestGlobals")
 

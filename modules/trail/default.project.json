@@ -1,0 +1,6 @@
+{
+  "name": "trail",
+  "tree": {
+    "$path": "src"
+  }
+}

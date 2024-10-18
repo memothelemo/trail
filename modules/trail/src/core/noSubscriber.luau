@@ -1,8 +1,8 @@
 --!strict
 --!optimize 2
 
-local Primitives = require("@src/core/primitives")
-local Subscriber = require("@src/core/subscriber")
+local Primitives = require("@Trail/core/primitives")
+local Subscriber = require("@Trail/core/subscriber")
 
 --[[
     A no-op NoSubscriber

@@ -1,8 +1,8 @@
 --!strict
 --!optimize 2
 
-local Dispatcher = require("@src/core/dispatcher")
-local Primitives = require("@src/core/primitives")
+local Dispatcher = require("@Trail/core/dispatcher")
+local Primitives = require("@Trail/core/primitives")
 
 local Span = {}
 

@@ -1,6 +1,19 @@
 {
-  "name": "Trail",
+  "name": "Testing Place",
   "tree": {
-    "$path": "out"
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "DevPackages": {
+        "$path": "DevPackages"
+      },
+      "trail": {
+        "$path": "modules/trail/out"
+      }
+    },
+    "ServerScriptService": {
+      "Test": {
+        "$path": "out"
+      }
+    }
   }
 }

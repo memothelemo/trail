@@ -1,4 +1,5 @@
 --!strict
+local Primitives = require("@src/core/primitives")
 local Span = require("@src/Span")
 local Subscriber = require("@src/Subscriber")
 
@@ -66,6 +67,32 @@ function Dispatch.currentSpan(): Span
         return currentSpan
     else
         return Span.none()
+    end
+end
+
+function Dispatch.enter(span: Span.Span)
+    local localSubscriber = Dispatch.getLocalSubscriber()
+    if localSubscriber == nil then
+        return
+    end
+    localSubscriber:onSpanEnter(span)
+end
+
+function Dispatch.exit(span: Span.Span)
+    local localSubscriber = Dispatch.getLocalSubscriber()
+    if localSubscriber == nil then
+        return
+    end
+    localSubscriber:onSpanExit(span)
+end
+
+function Dispatch.event(event: Primitives.Event)
+    local localSubscriber = Dispatch.getLocalSubscriber()
+    if localSubscriber == nil then
+        return
+    end
+    if localSubscriber:eventEnabled(event) then
+        localSubscriber:event(event)
     end
 end
 

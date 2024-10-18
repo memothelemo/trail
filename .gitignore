@@ -1,0 +1,15 @@
+# Project place file
+/trail.rbxlx
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# Build artifacts
+/DevPackages
+/Packages
+/node_modules
+
+out
+sourcemap.json
+sourcemap.*.json

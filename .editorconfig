@@ -1,0 +1,13 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+
+[*.{lua,ts,d.ts}]
+indent_size = 4
+indent_style = space
+
+[*.json]
+indent_size = 2
+indent_style = space

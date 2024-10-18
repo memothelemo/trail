@@ -1,0 +1,28 @@
+{
+  "name": "trail",
+  "version": "0.0.1",
+  "description": "Event-based diagnostic information inspired from tokio-rs's tracing",
+  "main": "out/library/init.luau",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "dev": "sh ./scripts/dev.sh",
+    "prepublishOnly": "yarn run build"
+  },
+  "author": "memothelemo",
+  "license": "ISC",
+  "files": [
+    "out",
+    "!**/*.tsbuildinfo"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@rbxts/compiler-types": "^3.0.0-types.0",
+    "@rbxts/types": "^1.0.813",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "roblox-ts": "^3.0.0",
+    "typescript": "^5.6.3"
+  }
+}

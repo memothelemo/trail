@@ -20,12 +20,12 @@
     {
       "rule": "inject_global_value",
       "identifier": "__TRAIL_UNIT_TESTS__",
-      "value": true
+      "value": false
     },
     {
       "rule": "inject_global_value",
       "identifier": "__TRAIL_RUN_BENCHMARKS__",
-      "value": false
+      "value": true
     },
     "compute_expression",
     "remove_unused_if_branch",

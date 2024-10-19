@@ -18,7 +18,6 @@ function Layer.is(obj: any): boolean
 end
 
 function Layer:constructor() end
-
 function Layer.onRegisterDispatch(_self: Layer, _subscriber: Trail.Dispatch) end
 function Layer.onLayer(_self: Layer, _subscriber: Trail.Subscriber) end
 function Layer.enabled(_self: Layer, _metadata: Trail.Metadata, _ctx: LayerContext): boolean
@@ -48,20 +47,15 @@ function Layer.onFollowsFrom(
     _ctx: LayerContext
 )
 end
-
--- It has to do with roblox-ts. See in types/index.d.ts
--- (Layer class declaration) for the explanation
-Layer.eventEnabledAsLayer = Layer.eventEnabled
-Layer.enabledAsLayer = Layer.enabled
-
 function Layer.eventEnabled(_self: Layer, _event: Trail.Event, _ctx: LayerContext): boolean
     return true
 end
-
 function Layer.onEvent(_self: Layer, _event: Trail.Event, _ctx: LayerContext) end
 function Layer.onEnter(_self: Layer, _id: Trail.Id, _ctx: LayerContext) end
 function Layer.onExit(_self: Layer, _id: Trail.Id, _ctx: LayerContext) end
 function Layer.onClose(_self: Layer, _id: Trail.Id, _ctx: LayerContext) end
 function Layer.onIdChange(_self: Layer, _old: Trail.Id, _new: Trail.Id, _ctx: LayerContext) end
+
+------------------------------------------------------------------------------------------------
 
 return Layer

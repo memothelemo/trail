@@ -140,7 +140,13 @@ declare namespace Trail {
         };
     };
 
-    type SpanId = string;
+    type SpanId = string & {
+        /**
+         * @hidden
+         * @deprecated
+         */
+        readonly __nominal_SpanId: unique symbol;
+    };
 
     type FieldSet = string[];
     type ValueSet = unknown[];

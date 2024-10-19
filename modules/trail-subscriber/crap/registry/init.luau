@@ -6,64 +6,27 @@ local Trail = require("@Trail/")
 local Attributes = Trail.Span.Attributes
 local Dispatcher = require("@Trail/core/dispatcher")
 local HttpService = game:GetService("HttpService")
-local SpanRegistryTypes = require("./span")
 local SpanStack = require("./stack")
 
 type SpanStack = SpanStack.SpanStack
 
--- LOOKUP_SPAN IMPLEMENTATION --
---[[
-    metadata: Trail.Metadata,
-    parent: Trail.Id?,
-]]
-local RegistrySpanData = setmetatable({}, SpanRegistryTypes.SpanData)
-RegistrySpanData.__index = RegistrySpanData
+-- Registry is a subscriber
+local Registry = setmetatable({}, {
+    __index = Trail.Subscriber,
+})
+
+export type Registry = typeof(Registry) & Trail.Subscriber & {
+    _currentSpans: { [thread]: SpanStack },
+    _spans: { [Trail.Id]: RegistrySpanData },
+}
 
 --[[
     This is our own local copy of a Span because by design,
     tracing doesn't allow us to keep Span values.
 ]]
-export type RegistrySpanData = typeof(RegistrySpanData) & {
-    _id: Trail.Id,
-    _metadata: Trail.Metadata,
-    _parent: Trail.Id?,
-}
-
-function RegistrySpanData.new(
-    id: Trail.Id,
+export type RegistrySpanData = {
     metadata: Trail.Metadata,
-    parent: Trail.Id?
-): RegistrySpanData
-    local self = setmetatable({
-        _id = id,
-        _metadata = metadata,
-        _parent = parent,
-    }, RegistrySpanData)
-    return (self :: never) :: RegistrySpanData
-end
-
-function RegistrySpanData.id(self: RegistrySpanData): Trail.Id
-    return self._id
-end
-
-function RegistrySpanData.metadata(self: RegistrySpanData): Trail.Metadata
-    return self._metadata
-end
-
-function RegistrySpanData.parent(self: RegistrySpanData): Trail.Id?
-    return self._parent
-end
-
-------------------------------
--- Registry is a subscriber --
-local Registry = setmetatable({}, {
-    __index = Trail.Subscriber,
-})
-Registry.__index = Registry
-
-export type Registry = typeof(Registry) & SpanRegistryTypes.LookupSpan & Trail.Subscriber & {
-    _currentSpans: { [thread]: SpanStack },
-    _spans: { [Trail.Id]: RegistrySpanData },
+    parent: Trail.Id?,
 }
 
 function Registry.new(): Registry
@@ -112,9 +75,13 @@ function Registry.newSpan(self: Registry, attrs: Trail.Attributes): Trail.Id
         local itsParent = Trail.Span.Parent.getParentId(attrs.parent)
         parent = itsParent
     end
-    local id = HttpService:GenerateGUID(false)
+    local id
     do
-        local inner = RegistrySpanData.new(id, attrs.metadata, parent)
+        local inner: RegistrySpanData = {
+            metadata = attrs.metadata,
+            parent = parent,
+        }
+        id = HttpService:GenerateGUID(false)
         self._spans[id] = inner
     end
     return id
@@ -178,14 +145,5 @@ function Registry.currentSpan(self: Registry): Trail.Id?
 end
 
 Registry.tryClose = nop
-
--- LOOKUP_SPAN IMPLEMENTATION --
-function Registry.spanData(self: Registry, id: Trail.Id): RegistrySpanData?
-    return self:getSpan(id)
-end
-
-function Registry.span(self: Registry, id: Trail.Id): SpanRegistryTypes.SpanRef?
-    return SpanRegistryTypes.SpanRef.span(self, id)
-end
 
 return (Registry :: never) :: Registry

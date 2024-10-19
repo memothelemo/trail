@@ -2,11 +2,11 @@
 --!optimize 2
 
 local Registry = require("../registry")
-local RegistrySpanTypes = require("../registry/span")
 local Trail = require("@Trail/")
 
 local LayerContext = {}
 
+type RegistrySpanData = Registry.RegistrySpanData
 export type LayerContext = typeof(LayerContext) & {
     subscriber: Trail.Subscriber,
 }
@@ -32,11 +32,7 @@ function LayerContext.event(self: LayerContext, event: Trail.Event)
     self.subscriber:event(event)
 end
 
-function LayerContext.eventSpan(self: LayerContext, event: Trail.Event): RegistrySpanTypes.SpanRef?
-    assert(
-        RegistrySpanTypes.implementsLookupSpan(self.subscriber),
-        "Your subscriber set is not implemented with LookupSpan"
-    )
+function LayerContext.eventSpan(self: LayerContext, event: Trail.Event): any
     if Trail.Event.isRoot(event) then
         return nil
     elseif Trail.Event.isContextual(event) then
@@ -51,39 +47,25 @@ function LayerContext.eventSpan(self: LayerContext, event: Trail.Event): Registr
 end
 
 function LayerContext.metadata(self: LayerContext, id: Trail.Id): Trail.Metadata?
-    assert(
-        RegistrySpanTypes.implementsLookupSpan(self.subscriber),
-        "Your subscriber set does not implement LookupSpan"
-    )
     local span = self:span(id)
     if span ~= nil then
-        return span:metadata()
+        return span.metadata
     end
     return nil
 end
 
-function LayerContext.span(self: LayerContext, id: Trail.Id): RegistrySpanTypes.SpanRef?
-    assert(
-        RegistrySpanTypes.implementsLookupSpan(self.subscriber),
-        "Your subscriber set does not implement LookupSpan"
-    )
-    local subscriber = (self.subscriber :: never) :: RegistrySpanTypes.LookupSpan
-    return subscriber:span(id)
+function LayerContext.span(self: LayerContext, id: Trail.Id): any
+    if self.subscriber["getSpan"] ~= nil then
+        return (self.subscriber :: never):_getSpan(id) :: any
+    end
+    return nil
 end
 
-function LayerContext.exists(self: LayerContext, id: Trail.Id): boolean
-    assert(
-        RegistrySpanTypes.implementsLookupSpan(self.subscriber),
-        "Your subscriber set does not implement LookupSpan"
-    )
+function LayerContext.exists(self: LayerContext, id: Trail.Id): any
     return self:span(id) ~= nil
 end
 
-function LayerContext.lookupCurrent(self: LayerContext): RegistrySpanTypes.SpanRef?
-    assert(
-        RegistrySpanTypes.implementsLookupSpan(self.subscriber),
-        "Your subscriber set does not implement LookupSpan"
-    )
+function LayerContext.lookupCurrent(self: LayerContext): any
     local currentSpanId = self.subscriber:currentSpan()
     if currentSpanId == nil then
         return nil
@@ -93,15 +75,11 @@ function LayerContext.lookupCurrent(self: LayerContext): RegistrySpanTypes.SpanR
     return span
 end
 
-function LayerContext.lookupCurrentFiltered(
-    _self: LayerContext,
-    subscriber: Trail.Subscriber
-): RegistrySpanTypes.SpanRef?
-    assert(
-        RegistrySpanTypes.implementsLookupSpan(subscriber),
-        "`subscriber` argument set does not implement LookupSpan"
-    )
+function LayerContext.lookupCurrentFiltered(_self: LayerContext, subscriber: Trail.Subscriber): any
     if not Registry.is(subscriber) then
+        return nil
+    end
+    if subscriber["getSpan"] == nil then
         return nil
     end
 
@@ -117,7 +95,6 @@ function LayerContext.lookupCurrentFiltered(
             return span
         end
     end
-
     return nil
 end
 

@@ -2,21 +2,40 @@
 
 import Trail from "@rbxts/trail";
 
-// Registry
+// LookupSpan
 declare namespace TrailSubscriber {
-    interface LookupSpan<D extends defined> extends Trail.Subscriber {
-        getSpan(id: Trail.SpanId): D | undefined;
+    export interface SpanData {
+        id(): Trail.SpanId;
+        metadata(): Trail.Metadata;
+        parent(): Trail.SpanId | undefined;
     }
 
-    interface RegistrySpanData {
-        metadata: Trail.Metadata;
-        parent: Trail.SpanId | undefined;
+    export interface SpanRef<Registry extends LookupSpan<SpanData>> {
+        id(): Trail.SpanId;
+        metadata(): Trail.Metadata;
+        name(): string;
+        fields(): Trail.FieldSet;
+        parent(): SpanRef<Registry> | undefined;
+    }
+
+    export interface LookupSpan<Data extends SpanData> {
+        /** @hidden */
+        spanData(id: Trail.SpanId): Data | undefined;
+        span(id: Trail.SpanId): SpanRef<this>;
+    }
+}
+
+// Registry
+declare namespace TrailSubscriber {
+    interface RegistrySpanData extends SpanData {
+        /**
+         * @hidden
+         * @deprecated
+         */
+        readonly __nominal_RegistrySpanData: unique symbol;
     }
 
     class Registry extends Trail.Subscriber implements LookupSpan<RegistrySpanData> {
-        protected _spanStack(): SpanStack;
-        protected _getSpan(): RegistrySpanData;
-
         public enabled(metadata: Trail.Metadata): boolean;
         public newSpan(span: Trail.Attributes): Trail.SpanId;
         public record(span: Trail.SpanId, values: Trail.Record): void;
@@ -25,9 +44,12 @@ declare namespace TrailSubscriber {
         public enter(span: Trail.SpanId): void;
         public exit(span: Trail.SpanId): void;
         public getSpan(id: Trail.SpanId): RegistrySpanData | undefined;
+
+        public spanData(id: Trail.SpanId): RegistrySpanData | undefined;
+        public span(id: Trail.SpanId): SpanRef<this>;
     }
 
-    interface SpanStack {
+    interface RegistrySpanStack {
         current(): Trail.SpanId | undefined;
         push(id: Trail.SpanId): boolean;
         pop(id: Trail.SpanId): boolean;
@@ -36,37 +58,42 @@ declare namespace TrailSubscriber {
 
 // Layered
 declare namespace TrailSubscriber {
-    class Layered<L extends Layer<S>, S extends Trail.Subscriber>
-        extends Layer<S>
-        implements Trail.Subscriber
-    {
-        public constructor(layer: L, inner: S);
-        public static is(obj: unknown): obj is Layered<Layer<Trail.Subscriber>, Trail.Subscriber>;
+    class Layers<Root extends Trail.Subscriber> extends Trail.Subscriber implements Layer<Root> {
+        public constructor(root: Root);
 
-        protected _inner: S;
-        protected _layer: L;
+        public withLayer<S extends Root>(layer: Layer<S>): this;
 
-        protected _ctx(): LayerContext<S>;
+        public enabledAsLayer(metadata: Trail.Metadata, ctx: LayerContext<Root>): void;
+        public eventEnabledAsLayer(event: Trail.Event, ctx: LayerContext<Root>): void;
+        public onRegisterDispatch(subscriber: Trail.Dispatch): void;
+        public onLayer(subscriber: Trail.Subscriber): void;
+        public onNewSpan(attrs: Trail.Attributes, id: Trail.SpanId, ctx: LayerContext<Root>): void;
+        public onRecord(span: Trail.SpanId, values: Trail.Record, ctx: LayerContext<Root>): void;
+        public onFollowsFrom(
+            span: Trail.SpanId,
+            follows: Trail.SpanId,
+            ctx: LayerContext<Root>,
+        ): void;
+        public onEvent(event: Trail.Event, ctx: LayerContext<Root>): void;
+        public onEnter(id: Trail.SpanId, ctx: LayerContext<Root>): void;
+        public onExit(id: Trail.SpanId, ctx: LayerContext<Root>): void;
+        public onClose(id: Trail.SpanId, ctx: LayerContext<Root>): void;
+        public onIdChange(old: Trail.SpanId, newOne: Trail.SpanId, ctx: LayerContext<Root>): void;
 
-        public enabledAsLayer(metadata: Trail.Metadata, ctx: LayerContext<S>): boolean;
-        public eventEnabledAsLayer(event: Trail.Event): boolean;
-
-        /** @hidden @deprecated */
-        public enabled(metadata: Trail.Metadata): boolean;
-        /** @hidden @deprecated */
-        public eventEnabled(event: Trail.Event): boolean;
-
-        public maxLevelHint(): Trail.LevelFilter;
         public newSpan(span: Trail.Attributes): Trail.SpanId;
         public record(span: Trail.SpanId, values: Trail.Record): void;
         public recordFollowsFrom(span: Trail.SpanId, follows: Trail.SpanId): void;
         public event(event: Trail.Event): void;
         public enter(span: Trail.SpanId): void;
         public exit(span: Trail.SpanId): void;
-        public cloneSpan(old: Trail.SpanId): Trail.SpanId;
-        public dropSpan(id: Trail.SpanId): void;
-        public tryClose(id: Trail.SpanId): boolean;
+        public cloneSpan(span: Trail.SpanId): Trail.SpanId;
         public currentSpan(): Trail.SpanId | undefined;
+        public tryClose(id: Trail.SpanId): boolean;
+
+        /** @hidden @deprecated */
+        public enabled(metadata: Trail.Metadata): boolean;
+        /** @hidden @deprecated */
+        public eventEnabled(event: Trail.Event): boolean;
     }
 }
 
@@ -101,7 +128,17 @@ declare namespace TrailSubscriber {
         currentSpan(): Trail.SpanId | undefined;
         enabled(metadata: Trail.Metadata): boolean;
         event(event: Trail.Event): void;
-    } & (S extends LookupSpan<infer D> ? LookupSpan<D> : {});
+    } & (S extends LookupSpan<infer D>
+        ? LookupSpan<D> & {
+              eventSpan(event: Trail.Event): SpanRef<S> | undefined;
+              metadata(id: Trail.SpanId): Trail.Metadata | undefined;
+              exists(id: Trail.SpanId): boolean;
+              lookupCurrent(): SpanRef<S> | undefined;
+              lookupCurrentFiltered(
+                  subscriber: LookupSpan<SpanData> & Trail.Subscriber,
+              ): SpanRef<S> | undefined;
+          }
+        : {});
 }
 
 export = TrailSubscriber;

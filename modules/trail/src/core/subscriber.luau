@@ -5,8 +5,13 @@ local Primitives = require("@Trail/core/primitives")
 
 local Subscriber = {}
 Subscriber.__index = Subscriber
+Subscriber.__tostring = function(self: Subscriber)
+    return self._name or "<UnknownSubscriber>"
+end
 
-export type Subscriber = typeof(Subscriber)
+export type Subscriber = typeof(Subscriber) & {
+    _name: string,
+}
 
 function Subscriber:constructor() end
 
@@ -71,7 +76,7 @@ end
 
 -- selene: allow(unused_variable)
 function Subscriber.event(self: Subscriber, event: Primitives.Event)
-    error("[trail::subscriber] Please implement `:recordFollowsFrom(...)`")
+    error("[trail::subscriber] Please implement `:event(...)`")
 end
 
 -- selene: allow(unused_variable)

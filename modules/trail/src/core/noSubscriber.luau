@@ -10,11 +10,12 @@ local Subscriber = require("@Trail/core/subscriber")
 local NoSubscriber = setmetatable({}, {
     __index = Subscriber,
 })
+NoSubscriber.__index = NoSubscriber
 
 function NoSubscriber.new()
-    local self = setmetatable({}, {
-        __index = NoSubscriber,
-    })
+    local self = setmetatable({
+        _name = "trail::core::NoSubscriber",
+    }, NoSubscriber)
     Subscriber.constructor(self)
     return self
 end

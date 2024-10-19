@@ -23,8 +23,8 @@ declare namespace Trail {
 // Subscriber
 declare namespace Trail {
     abstract class Subscriber {
-        public static setGlobalDefault(subscriber: Subscriber): void;
-        public static withDefault<T>(subscriber: Subscriber, fn: () => T): T;
+        public static setGlobalDefault: (subscriber: Subscriber) => void;
+        public static withDefault: <T>(subscriber: Subscriber, fn: () => T) => T;
 
         public abstract enabled(metadata: Metadata): boolean;
         public abstract newSpan(span: Attributes): SpanId;
@@ -149,7 +149,7 @@ declare namespace Trail {
     };
 
     type FieldSet = string[];
-    type ValueSet = unknown[];
+    type ValueSet = defined[];
 
     interface Metadata {
         // The name of the span described by this metadata.
@@ -163,7 +163,7 @@ declare namespace Trail {
         level: Level;
 
         // The source script where the span occurred.
-        script: Script;
+        script: LuaSourceContainer;
 
         // Line number in the source code file where the span occurred
         line: number;

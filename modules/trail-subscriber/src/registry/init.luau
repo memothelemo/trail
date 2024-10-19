@@ -60,6 +60,7 @@ local Registry = setmetatable({}, {
     __index = Trail.Subscriber,
 })
 Registry.__index = Registry
+Registry.__tostring = Trail.Subscriber.__tostring
 
 export type Registry = typeof(Registry) & SpanRegistryTypes.LookupSpan & Trail.Subscriber & {
     _currentSpans: { [thread]: SpanStack },
@@ -69,6 +70,7 @@ export type Registry = typeof(Registry) & SpanRegistryTypes.LookupSpan & Trail.S
 function Registry.new(): Registry
     local self = setmetatable({
         _currentSpans = {},
+        _name = "trail_subscriber::Registry",
         _spans = {},
     }, Registry)
     return (self :: never) :: Registry

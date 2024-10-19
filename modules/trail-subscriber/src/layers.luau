@@ -6,8 +6,9 @@ local LayerContext = require("./layer/context")
 local Registry = require("./registry")
 local Trail = require("@Trail/")
 
-local Layers = {}
+local Layers = setmetatable({}, Trail.Subscriber)
 Layers.__index = Layers
+Layers.__tostring = Trail.Subscriber.__tostring
 
 type Layer = Layer.Layer
 type LayerContext = LayerContext.LayerContext
@@ -25,6 +26,7 @@ function Layers.new(root: Trail.Subscriber): Layers
     local self = setmetatable({
         _context = LayerContext.new(root),
         _layers = {},
+        _name = "trail_subscriber::Registry",
         _root = root,
         _root_is_registry = Registry.is(root),
     }, Layers)

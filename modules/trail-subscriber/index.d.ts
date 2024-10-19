@@ -100,7 +100,7 @@ declare namespace TrailSubscriber {
 // Layers
 declare namespace TrailSubscriber {
     abstract class Layer<S extends Trail.Subscriber> {
-        public static is(obj: unknown): obj is Layer<Trail.Subscriber>;
+        public static is: (obj: unknown) => obj is Layer<Trail.Subscriber>;
 
         // TypeScript won't let us use the same method name that implements
         // both Subscriber and Layer unfortunately.

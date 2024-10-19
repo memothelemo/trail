@@ -5,7 +5,7 @@
   "repository": "https://github.com/memothelemo/trail",
   "license": "MIT",
   "main": "out/init.luau",
-  "types": "types/index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "prepare": "cp ../../LICENSE.txt . && cp ../../README.md ."
   },

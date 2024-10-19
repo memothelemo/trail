@@ -1,12 +1,6 @@
 {
   "name": "trail-subscriber",
   "tree": {
-    "$className": "Folder",
-    "fakeModule": {
-      "$path": "src"
-    },
-    "trail": {
-      "$path": "../trail/src"
-    }
+    "$path": "out"
   }
 }

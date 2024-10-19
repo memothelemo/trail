@@ -28,6 +28,16 @@ function SpanStack.new(): SpanStack
     return (self :: never) :: SpanStack
 end
 
+function SpanStack.current(self: SpanStack): Trail.Id?
+    for i = #self._stack, 1, -1 do
+        local context = self._stack[i]
+        if not context.duplicate then
+            return context.id
+        end
+    end
+    return nil
+end
+
 function SpanStack.push(self: SpanStack, id: Trail.Id): boolean
     local duplicate = false
     for _, v in ipairs(self._stack) do

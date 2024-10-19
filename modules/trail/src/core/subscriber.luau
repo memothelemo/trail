@@ -52,6 +52,9 @@ function Subscriber.newSpan(self: Subscriber, span: Primitives.Attributes): Prim
 end
 
 -- selene: allow(unused_variable)
+function Subscriber.dropSpan(self: Subscriber, id: Primitives.Id) end
+
+-- selene: allow(unused_variable)
 function Subscriber.record(self: Subscriber, span: Primitives.Id, values: Primitives.Record)
     error("[trail::subscriber] Please implement `:record(...)`")
 end
@@ -89,6 +92,12 @@ end
 -- selene: allow(unused_variable)
 function Subscriber.currentSpan(self: Subscriber): Primitives.Id?
     return nil
+end
+
+-- selene: allow(unused_variable)
+function Subscriber.tryClose(self: Subscriber, id: Primitives.Id): boolean
+    self:dropSpan(id)
+    return false
 end
 
 return Subscriber

@@ -9,6 +9,9 @@ local Subscriber = require("@Trail/core/subscriber")
 export type FieldSet = Primitives.FieldSet
 export type ValueSet = Primitives.ValueSet
 
+export type Level = Primitives.Level
+export type LevelFilter = Primitives.LevelFilter
+
 export type Id = Primitives.Id
 export type Span = Span.Span
 export type Parent = Primitives.Parent
@@ -29,6 +32,9 @@ local Trail = {
 
     Span = Span,
     Subscriber = Subscriber,
+
+    -- roblox-ts compatibility
+    BaseSubscriber = Subscriber,
 }
 
 -- Implementing unimplemented functions --

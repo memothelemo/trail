@@ -184,4 +184,8 @@ function Dispatch.currentSpan(self: Dispatch): Primitives.Id?
     return getSubscriber(self):currentSpan()
 end
 
+function Dispatch.tryClose(self: Dispatch, id: Primitives.Id): boolean
+    return getSubscriber(self):tryClose(id)
+end
+
 return Dispatch

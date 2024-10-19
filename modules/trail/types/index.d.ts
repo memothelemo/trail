@@ -40,6 +40,7 @@ declare namespace Trail {
         public eventEnabled(event: Event): boolean;
         public cloneSpan(span: SpanId): SpanId;
         public currentSpan(): SpanId | undefined;
+        public tryClose(id: SpanId): boolean;
     }
 }
 

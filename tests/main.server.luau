@@ -2,7 +2,11 @@
 
 -- roblox libraries are coming too JS..
 _G.NOCOLOR = true
-_G.__TRAIL_DEV__ = true
+_G.__TRAIL_DEV__ = false
+
+if _G.__TRAIL_UNIT_TESTS__ ~= true then
+    return
+end
 
 local Jest = require("@DevPackages/Jest")
 

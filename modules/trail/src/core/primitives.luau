@@ -150,6 +150,14 @@ function Attributes.getParent(attributes: Attributes): Id?
     return Parent.getParentId(attributes.parent)
 end
 
+function Attributes.isRoot(attrs: Attributes): boolean
+    return attrs.parent == Parent.Root
+end
+
+function Attributes.isContextual(attrs: Attributes): boolean
+    return attrs.parent == Parent.Current
+end
+
 -- A set of fields recorded by a span.
 export type Record = {
     values: ValueSet,

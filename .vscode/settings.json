@@ -1,5 +1,18 @@
 {
   "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+  "eslint.run": "onType",
+  "eslint.format.enable": true,
 
   "[yaml]": {
     "editor.formatOnSave": false,
@@ -21,7 +34,8 @@
   "luau-lsp.require.directoryAliases": {
     "@Packages": "Packages/",
     "@DevPackages": "DevPackages/",
-    "@Trail": "modules/trail/src/"
+    "@Trail/": "modules/trail/src/",
+    "@TrailSubscriber/": "modules/trail-subscriber/src/"
   },
   "[luau]": {
     "editor.defaultFormatter": "JohnnyMorganz.stylua"

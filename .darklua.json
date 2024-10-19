@@ -17,6 +17,16 @@
         }
       }
     },
+    {
+      "rule": "inject_global_value",
+      "identifier": "__TRAIL_UNIT_TESTS__",
+      "value": true
+    },
+    {
+      "rule": "inject_global_value",
+      "identifier": "__TRAIL_RUN_BENCHMARKS__",
+      "value": false
+    },
     "compute_expression",
     "remove_unused_if_branch",
     "remove_unused_while",

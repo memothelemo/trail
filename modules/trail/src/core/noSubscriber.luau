@@ -7,7 +7,17 @@ local Subscriber = require("@Trail/core/subscriber")
 --[[
     A no-op NoSubscriber
 ]]
-local NoSubscriber = Subscriber.extend("NoSubscriber")
+local NoSubscriber = setmetatable({}, {
+    __index = Subscriber,
+})
+
+function NoSubscriber.new()
+    local self = setmetatable({}, {
+        __index = NoSubscriber,
+    })
+    Subscriber.constructor(self)
+    return self
+end
 
 type Subscriber = Subscriber.Subscriber
 export type NoSubscriber = Subscriber
@@ -47,8 +57,4 @@ function NoSubscriber.enter(self: Subscriber, span: Primitives.Id) end
 -- selene: allow(unused_variable)
 function NoSubscriber.exit(self: Subscriber, span: Primitives.Id) end
 
-local object = setmetatable({}, {
-    __index = NoSubscriber,
-})
-
-return (object :: never) :: Subscriber
+return (NoSubscriber.new() :: never) :: Subscriber

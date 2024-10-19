@@ -54,8 +54,8 @@ function Subscriber.withDefaultReturned<T>(subscriber: Subscriber, fn: () -> T):
     return Dispatcher.withDefaultReturned(Dispatcher.new(subscriber), fn)
 end
 
-function Subscriber.withDefault(subscriber: Subscriber, fn: () -> ()): ()
-    Dispatcher.withDefault(Dispatcher.new(subscriber), fn)
+function Subscriber.withDefault(subscriber: Subscriber, fn: () -> ())
+    return Dispatcher.withDefault(Dispatcher.new(subscriber), fn)
 end
 
 return Trail

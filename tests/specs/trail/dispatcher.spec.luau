@@ -1,5 +1,5 @@
 -- Load Trail module first
-require("@Trail")
+require("@Trail/")
 
 local Dispatcher = require("@Trail/core/dispatcher")
 local NoSubscriber = require("@Trail/core/noSubscriber")
@@ -11,7 +11,6 @@ local JestGlobals = require("@DevPackages/JestGlobals")
 local it = JestGlobals.it
 local expect = JestGlobals.expect
 local describe = JestGlobals.describe
-
 local TEST_META: Primitives.Metadata = {
     name = "test",
     target = "specs::dispatcher.spec",
@@ -36,7 +35,13 @@ describe("dispatching events", function()
     it("should not loop indefinitely", function()
         local EVENTS_EMITTED = 0
 
-        local TestSubscriber = Subscriber.extend("TestSubscriber")
+        local TestSubscriber = setmetatable({}, {
+            __index = Subscriber,
+        })
+        TestSubscriber = setmetatable({}, {
+            __index = TestSubscriber,
+        })
+
         function TestSubscriber:enabled()
             return true
         end
@@ -49,7 +54,6 @@ describe("dispatching events", function()
         TestSubscriber.recordFollowsFrom = emptyFn
         TestSubscriber.enter = emptyFn
         TestSubscriber.exit = emptyFn
-        TestSubscriber.newSpan = emptyFn
 
         function TestSubscriber:event()
             if EVENTS_EMITTED > 0 then
@@ -75,7 +79,13 @@ describe("dispatching spans", function()
             end)
         end
 
-        local TestSubscriber = Subscriber.extend("TestSubscriber")
+        local TestSubscriber = setmetatable({}, {
+            __index = Subscriber,
+        })
+        TestSubscriber = setmetatable({}, {
+            __index = TestSubscriber,
+        })
+
         function TestSubscriber:enabled()
             return true
         end

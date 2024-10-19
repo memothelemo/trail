@@ -1,28 +1,14 @@
 --!strict
 --!optimize 2
 
-local Subscriber = {}
-Subscriber.__name = "Subscriber"
-
 local Primitives = require("@Trail/core/primitives")
+
+local Subscriber = {}
+Subscriber.__index = Subscriber
 
 export type Subscriber = typeof(Subscriber)
 
-function Subscriber.extend(name: string): Subscriber
-    assert(
-        type(name) == "string",
-        "Name must be a string or you should not use `:new()` in a subscriber."
-    )
-
-    local ownSubscriber = {}
-    for k, v in pairs(Subscriber) do
-        if k ~= "extend" then
-            ownSubscriber[k] = v
-        end
-    end
-
-    return ownSubscriber :: Subscriber
-end
+function Subscriber:constructor() end
 
 -- function Subscriber.new(...): Subscriber
 --     assert(

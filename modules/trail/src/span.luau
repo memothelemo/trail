@@ -154,8 +154,9 @@ end
 
 function Span.inScope(self: Span, fn: () -> ())
     self:enter()
-    fn()
+    local result = fn() :: never
     self:exit()
+    return result
 end
 
 function Span.hasField(self: Span, field: string): boolean
@@ -163,6 +164,11 @@ function Span.hasField(self: Span, field: string): boolean
         return false
     end
     return table.find(self.metadata.fields, field) ~= nil
+end
+
+-- roblox-ts compatibility
+function Span.isEnabled(self: Span): boolean
+    return self.inner ~= nil
 end
 
 function Span.isDisabled(self: Span): boolean
